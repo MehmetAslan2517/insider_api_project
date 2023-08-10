@@ -1,4 +1,4 @@
-package com.insiderApi;
+package com.insiderApi.crudTests;
 
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeAll;

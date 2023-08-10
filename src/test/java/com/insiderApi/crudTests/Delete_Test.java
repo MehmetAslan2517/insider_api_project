@@ -1,4 +1,4 @@
-package com.insiderApi;
+package com.insiderApi.crudTests;
 
 import io.restassured.http.ContentType;
 import io.restassured.internal.http.HttpResponseException;
