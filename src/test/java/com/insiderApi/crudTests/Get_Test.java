@@ -31,7 +31,7 @@ public class Get_Test extends TestBase {
 
         assertEquals(200, response.statusCode());
         assertEquals("application/json", response.header("Content-Type"));
-        List<String> status = response.path(s);
+        List<String> status = response.path("status");
         for (String stat : status) {
             assertEquals(s,stat);
         }

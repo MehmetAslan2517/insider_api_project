@@ -1,7 +1,9 @@
 package com.insiderApi.crudTests;
 
+import com.insiderApi.utilities.TestBase;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.codehaus.groovy.ast.expr.UnaryMinusExpression;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,11 +13,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.is;
 
-public class Post_Test {
-    @BeforeAll
-    public static void init() {
-        baseURI = "https://petstore.swagger.io/v2";
-    }
+public class Post_Test extends TestBase {
 
     @DisplayName("Positive POST /pet/{petId}/uploadImage")
     @Test
@@ -27,7 +25,7 @@ public class Post_Test {
                 .multiPart("additionalMetadata", "cat image3")
                 .multiPart("file", new File("C:\\Users\\bkryl\\OneDrive\\Masaüstü\\Sugar.jpg"))
                 .when()
-                .post("/pet/{petId}/uploadImage")
+                .post("/{petId}/uploadImage")
                 .then()
                 .assertThat()
                 .statusCode(200);
@@ -44,7 +42,7 @@ public class Post_Test {
                 .multiPart("additionalMetadata", "cat image3")
                 .multiPart("file", new File(""))
                 .when()
-                .post("/pet/{petId}/uploadImage");
+                .post("/{petId}/uploadImage");
     }
 
 
@@ -72,7 +70,7 @@ public class Post_Test {
                         "  ],\n" +
                         "  \"status\": \"sold\"\n" +
                         "}")
-                .when().post("/pet")
+                .when().post("")
                 .then().statusCode(200).contentType("application/json")
                 .body(
                         "id", is(13233343),
@@ -105,8 +103,29 @@ public class Post_Test {
                         "  ],\n" +
                         "  \"status\": \"new\"\n" +
                         "}")
-                .when().post("/pet")
+                .when().post("")
                 .then().statusCode(415);
+    }
+
+    @DisplayName("Positive POST /pet/{petId}")
+    @Test //This is a bug, According to the Swagger. Status code should be 200, but we get 404
+    //
+    public void postRequest3() {
+
+        RestAssured.given()
+                .pathParam("petId", 485)
+                .contentType(ContentType.MULTIPART)
+                .multiPart("name", "catiee")
+                .multiPart("status","sold" )
+                .when()
+                .post("/{petId}")
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("name", is("catiee"))
+                .body("status", is("sold"));
+
+
     }
 
 }
