@@ -75,7 +75,7 @@ public class Put_Test extends TestBase {
                         "  ],\n" +
                         "  \"status\": \"new\"\n" +
                         "}")
-                .when().put("/pet")
+                .when().put("")
                 .then().statusCode(415);
     }
 
