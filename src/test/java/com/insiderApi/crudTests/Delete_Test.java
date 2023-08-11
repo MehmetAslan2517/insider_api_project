@@ -92,5 +92,21 @@ public class Delete_Test extends TestBase {
 
     }
 
+    @DisplayName("Negative Delete Test /pet/{petId}")
+    @Test//This is a bug.According to the Swagger It should be 400 invalid id supplied.
+    // (Because ıd accept int64, but we pass more than that) But We get 404.
+    public void delete3() {
+
+        Response response = given().accept(ContentType.JSON)
+                .and()
+                .pathParam("petId", 1234567890123456L)
+                .when().delete("/{petId}");
+
+
+        assertEquals(400, response.getStatusCode());
+        assertEquals("application/json", response.contentType());
+
+    }
+
 
 }
